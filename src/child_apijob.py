@@ -9,12 +9,12 @@ from src.abstract_clas import ApiJob
 
 class VacancyhhJob(ApiJob):
     def __init__(self, base_url="https://api.hh.ru/vacancies") -> None:
-        self.base_url = base_url
+        self.__base_url = base_url
 
-    def connecting_test(self) -> bool:
+    def __connecting_test(self) -> bool:
         """Метод проверки API"""
         try:
-            response = requests.get(self.base_url)
+            response = requests.get(self.__base_url)
             response.raise_for_status()
             return True
         except requests.exceptions.RequestException as e:
@@ -25,7 +25,7 @@ class VacancyhhJob(ApiJob):
         """Получаем вакансии с платформы hh.ru по заданному запросу и количеству на страницу."""
         params = {"text": search_query, "per_page": per_page}
         try:
-            response = requests.get(self.base_url, params=params)
+            response = requests.get(self.__base_url, params=params)
             response.raise_for_status()
             return response.json().get("items", [])
         except Exception as e:
