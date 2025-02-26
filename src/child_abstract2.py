@@ -6,6 +6,9 @@ from src.vacancy_validation import VacancyValid
 
 
 class VacancyManager(JsonEdit):
+    """Дочерний класс для работы с файлами, который позволит сохранять вакансии, читать их и удалять.
+    Реализуем его для работы с JSON."""
+
     def __init__(self, file_path: str = "vacancies.json") -> None:
         self.__file_path = Path(file_path)
         if not self.__file_path.exists():
@@ -39,6 +42,7 @@ class VacancyManager(JsonEdit):
             if vacancy_dict not in data:
                 data.append(vacancy_dict)
         self.__save_data(data)
+
 
     def get_vacancies(self, criteria: Dict) -> List[Dict]:
         """Возвращает список вакансий, которые соответствуют моим критериям."""
