@@ -1,76 +1,69 @@
 from typing import Dict, List
 
+"""Класс, который будет представлять вакансию с атрибутами, такими как название, ссылка, зарплата, описание,
+а также методы для сравнения вакансий по зарплате и валидации данных."""
 
-class VacancyValidate:
-    """Класс, который будет представлять вакансию с атрибутами,
-     такими как название, ссылка, зарплата, описание,краткое описание или требования
-     (всего не менее четырех атрибутов). Класс должен поддерживать
-     методы сравнения вакансий между собой по зарплате
-    и валидировать данные, которыми инициализируются его атрибуты"""
 
-    __slots__ = ["name", "url", "salary_min", "salary_max", "description"]
+class VacancyValid:
+    __slots__ = ["name", "url", "salary_from", "salary_to", "description"]
 
-    def __init__(self, name, url, salary_min=None, salary_max=None, description=None) -> None:
+    def __init__(self, name, url, salary_from=None, salary_to=None, description=None) -> None:
         self.name = name
         self.url = url
-        self.salary_min = salary_min if salary_min else 0
-        self.salary_max = salary_max if salary_max else 0
+        self.salary_from = salary_from if salary_from is not None else 0
+        self.salary_to = salary_to if salary_to is not None else 0
         self.description = description or "Описание не указано"
 
-        self.validation()
+        # Валидация данных
+        self.__validate()
 
     def __validate(self) -> None:
         """Приватный метод для валидации данных вакансии"""
         if not self.name or not self.url:
             raise ValueError("Название вакансии и URL обязательны.")
-        elif self.salary_min < 0:
-            raise ValueError("Минимальное значение зарплаты не может быть меньше 0.")
-        elif self.salary_max > self.salary_min:
-            raise ValueError("Минимальное значение зарплатной вилки"
-                             " не может быть больше ее максимального значения")
+        if self.salary_from < 0 or self.salary_to < 0:
+            raise ValueError("Зарплата не может быть меньше 0.")
+        if self.salary_from > self.salary_to:
+            raise ValueError("Минимальная зарплата не может быть больше максимальной.")
 
     def __str__(self) -> str:
         """Возвращает строковое представление объекта Vacancy."""
-        return f"Вакансия: {self.name}," \
-               f" зарплатная вилка: {self.salary_min}-{self.salary_max}," \
-               f" URL: {self.url}"
+        return f"Вакансия: {self.name}, Зарплата: {self.salary_from}-{self.salary_to}, URL: {self.url}"
 
     def __lt__(self, other: "Vacancy") -> bool:
         """Сравнение вакансий по минимальной зарплате"""
-        return self.salary_min < other.salary_min
+        return (self.salary_from + self.salary_to) / 2 < (other.salary_from + other.salary_to) / 2
 
     def __gt__(self, other: "Vacancy") -> bool:
         """Сравнение вакансий по максимальной зарплате"""
-        return (self.salary_min + self.salary_max) / 2 > (other.salary_min + other.salary_max) / 2
+        return (self.salary_from + self.salary_to) / 2 > (other.salary_from + other.salary_to) / 2
 
     @staticmethod
-    def from_hh(api_data: List[Dict]) -> List:
-        """Метод для формирования списка вакансий из api-данных hh.ru"""
-        vacancies = []
-        for vac in api_data:
-            name = vac.get("name", "Название не указано")
-            url = vac.get("apply_alternate_url", "")
-            salary_min = vac.get("salary", {}).get("from", 0) if vac.get("salary") else 0
-            salary_max = vac.get("salary", {}).get("to", 0) if vac.get("salary") else 0
+    def from_dict(data: List[Dict]) -> List:
+        """Метод для формирования списка вакансий из данных платформы"""
+        vac = []
+        for vac_data in data:
+            name = vac_data.get("name", "Название не указано")
+            url = vac_data.get("apply_alternate_url", "")
 
-            department = vac.get("department")
-            description = department.get("name", "Описание не указано")\
-                if department else "Описание не указано"
+            salary_from = vac_data.get("salary", {}).get("from", 0) if vac_data.get("salary") else 0
+            salary_to = vac_data.get("salary", {}).get("to", 0) if vac_data.get("salary") else 0
 
-            vacancy = VacancyValidate(
-                name=name, url=url, salary_min=salary_min,
-                salary_max=salary_max, description=description
+            department = vac_data.get("department")
+            description = department.get("name", "Описание не указано") if department else "Описание не указано"
+
+            vacancy = VacancyValid(
+                name=name, url=url, salary_from=salary_from, salary_to=salary_to, description=description
             )
-            vacancies.append(vacancy)
-        return vacancies
-
+            vac.append(vacancy)
+        return vac
 
     def to_dict(self) -> Dict:
-        """Преобразует экземпляр класса VacancyValidate в словарь"""
+        """Преобразует экземпляр класса Vacancy в словарь"""
         return {
             "name": self.name,
             "url": self.url,
-            "salary_min": self.salary_min,
-            "salary_max": self.salary_max,
+            "salary_from": self.salary_from,
+            "salary_to": self.salary_to,
             "description": self.description,
         }

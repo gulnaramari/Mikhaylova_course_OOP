@@ -6,11 +6,12 @@ from abc import ABC, abstractmethod
 
 class ApiJob(ABC):
     @abstractmethod
-    def connect_api(self):
+    def get_connect(self):
         """Метод для подключения к API платформе"""
         pass
 
     @abstractmethod
-    def get_vacancy(self, search_query: str, page: int = 1):
+    def get_vacancy(self, query: str, page: int = 1):
         """Метод для получения списка вакансий по поисковому запросу"""
         pass
+
