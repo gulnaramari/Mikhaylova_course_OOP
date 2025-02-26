@@ -4,6 +4,7 @@ from typing import Dict, List
 from src.abstract2 import JsonEdit
 from src.vacancy_validation import VacancyValid
 
+
 class VacancyManager(JsonEdit):
     """Дочерний класс для работы с файлами, который позволит сохранять вакансии, читать их и удалять.
     Реализуем его для работы с JSON."""

@@ -17,4 +17,3 @@ class JsonEdit(ABC):
     @abstractmethod
     def delete_vacancy(self, criteria: Dict):
         pass
-
