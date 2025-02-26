@@ -28,6 +28,7 @@ class HH(ApiJob):
             print(f"Error: {e}")
             return False
 
+
     def get_vacancy(self, query: str, pages: int, per_page: int) -> List:
         """Получаем вакансии с платформы hh.ru по заданному запросу и количеству на страницу."""
         list_vac = []
