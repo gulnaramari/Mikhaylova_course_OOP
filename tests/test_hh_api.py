@@ -30,4 +30,3 @@ def test_get_vacancies_failure(mock_hh_api):
         mock_get.return_value.status_code = 500
         vacancies = mock_hh_api.get_vacancies("developer")
         assert vacancies == []
-

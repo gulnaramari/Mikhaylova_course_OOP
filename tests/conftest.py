@@ -1,6 +1,5 @@
 import os
 import pytest
-
 from src.child_abstract1 import HH
 from src.vacancy_validation import VacancyValid
 @pytest.fixture()
@@ -71,4 +70,3 @@ def platform_data():
         yield file
         if file.exists():
             os.remove(file)
-
