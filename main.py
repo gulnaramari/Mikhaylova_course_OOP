@@ -1,4 +1,4 @@
-from child_abstract2 import VacancyManager
+from src.child_abstract2 import VacancyManager
 from src.child_abstract1 import HH
 from src.vacancy_validation import VacancyValid
 
@@ -11,8 +11,6 @@ def user_interaction():
         return
 
     storage = VacancyManager('vacancies.json')
-    #storage = VacancyManager("C:/Users/user/OneDrive/Desktop/my-prj/"
-                                 "Project_job_seerch/data/hh_vacancies.json")
 
     while True:
         print("\nМеню:")

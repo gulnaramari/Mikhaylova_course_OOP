@@ -1,5 +1,7 @@
 from typing import Dict, List
 
+from src.child_abstract1 import HH
+
 
 class VacancyValid:
     __slots__ = ["name", "url", "salary_from", "salary_to", "description"]
@@ -51,14 +53,14 @@ class VacancyValid:
             department = vac_data.get("department")
             description = department.get("name", "Описание не указано") if department else "Описание не указано"
 
-            vacancy = VacancyValid(
+            vacancy_ = VacancyValid(
                 name=name, url=url, salary_from=salary_from, salary_to=salary_to, description=description
             )
-            vac.append(vacancy)
+            vac.append(vacancy_)
         return vac
 
     def to_dict(self) -> Dict:
-        """Преобразует экземпляр класса Vacancy в словарь"""
+        """Преобразует экземпляр класса VacancyValid в словарь"""
         return {
             "name": self.name,
             "url": self.url,
@@ -66,3 +68,26 @@ class VacancyValid:
             "salary_to": self.salary_to,
             "description": self.description,
         }
+
+
+if __name__ == '__main__':
+    platform = HH()
+# Проверяем подключение
+    if platform.connect():
+        # Получаем вакансии с платформы по запросу
+        platform_data = platform.get_vacancies("python разработчик")
+
+        # Преобразуем данные вакансий в экземпляры класса Vacancy
+        vacancies = VacancyValid.from_platform(platform_data)
+
+        # Выводим вакансии
+        for vacancy in vacancies:
+            print(vacancy)
+        print(type(vacancy))
+
+        vacancy_developer = VacancyValid(name="Python_developer",
+                                         url="https://hh.ru/applicant/vacancy_response?vacancyId=117286365",
+                                         salary_from=100000,
+                                         salary_to=120000,
+                                         description="Разработка и поддержка, back end части веб-приложений.")
+        print(vacancy_developer.__str__())
