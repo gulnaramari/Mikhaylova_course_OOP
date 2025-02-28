@@ -8,7 +8,7 @@ def head_hunter_example():
 
 
 @pytest.fixture
-def vacancy_Python_developer():
+def vacancy_Python():
     return VacancyValid(
         name="Python_developer",
         url="https://hh.ru/applicant/vacancy_response?vacancyId=117286365",
@@ -18,13 +18,25 @@ def vacancy_Python_developer():
     )
 
 @pytest.fixture
-def vacancy_system_administrator():
+def vacancy_sci():
+    return VacancyValid(
+        name="Data Scientist",
+        url="https://example.com/2",
+        salary_from=150000,
+        salary_to=200000,
+    )
+
+@pytest.fixture
+def vacancy_sysadmin():
     return VacancyValid(
         name="Системный администратор",
         url="https://hh.ru/applicant/vacancy_response?vacancyId=112451122",
         salary_from=50000,
         salary_to=90000,
     )
+
+
+
 @pytest.fixture
 def mock_hh_api():
     """Создаем mock-объект для HH """
@@ -39,12 +51,12 @@ def vacancy_without_name():
 @pytest.fixture()
 def vacancy_without_url():
     """Фикстура, возвращающая данные для создания вакансии без адреса url."""
-    return {"name": "Сантехник", "url": "", "salary_from": 60000, "salary_to": 120000}
+    return {"name": "Ведущий офис-менеджер", "url": "", "salary_from": 130000, "salary_to": 170000}
 
 @pytest.fixture()
 def vacancy_with_negative_salary():
     """Фикстура, возвращающая данные для создания вакансии, где зарплата - отрицательное число."""
-    return {"name": "Садовник", "url": "https://hh.com/job2", "salary_from": -60000, "salary_to": 120000}
+    return {"name": "Швея-мотористка", "url": "https://hh.com/job2", "salary_from": -60000, "salary_to": 120000}
 
 @pytest.fixture()
 def platform_data():

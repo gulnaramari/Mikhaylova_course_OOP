@@ -7,12 +7,12 @@ class ApiJob(ABC):
     определены методы, которые необходимо реализовать в каждом конкретном классе-платформе, например, для hh.ru."""
 
     @abstractmethod
-    def get_connect(self):
+    def __get_connect(self):
         """Метод для подключения к API платформе"""
         pass
 
     @abstractmethod
-    def get_vacancy(self, query: str, page: int = 1):
+    def __get_vacancy(self, query: str, page: int = 1):
         """Метод для получения списка вакансий по поисковому запросу"""
         pass
 

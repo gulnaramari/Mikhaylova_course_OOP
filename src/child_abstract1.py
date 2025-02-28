@@ -1,6 +1,8 @@
 from abc import ABC
 from typing import Dict, List, Optional
 import requests
+from urllib3.util import url
+
 from src.abstract_1 import ApiJob
 
 
@@ -31,7 +33,7 @@ class HH(ApiJob, ABC):
             return False
 
 
-    def get_vacancy(self, query: str, pages: int, per_page: int) -> List:
+    def __get_vacancy(self, query: str, pages: int, per_page: int) -> List:
         """Получаем вакансии с платформы hh.ru по заданному запросу и количеству на страницу."""
         list_vac = []
         for page in range(pages):
@@ -40,17 +42,4 @@ class HH(ApiJob, ABC):
                 vacancies = response.json().get("items", [])
                 list_vac.extend(vacancies)
         return list_vac
-
-
-if __name__ == "__main__":
-    hh_url = url.base_url
-    print(hh_url)
-
-    response = url.get_vacancy("Электрик", 12, 3)
-    print(response)
-    status = response.status_code
-    result = response.text
-    print(status)
-    print(result)
-
 
