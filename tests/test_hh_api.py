@@ -9,7 +9,7 @@ def test_connect_success(mock_hh_api):
     """Тест на успешное подключение к API."""
     with patch("requests.get") as mock_get:
         mock_get.return_value.status_code = 200
-        assert mock_hh_api.connect() is True
+        assert mock_hh_api.get_connecting() is True
 
 
 def test_get_vacancies_success(mock_hh_api):

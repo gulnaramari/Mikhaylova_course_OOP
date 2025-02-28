@@ -2,13 +2,15 @@ import os
 import pytest
 from src.child_abstract1 import HH
 from src.vacancy_validation import VacancyValid
+
+
 @pytest.fixture()
 def head_hunter_example():
     return HH(base_url="https://api.hh.ru/vacancies")
 
 
 @pytest.fixture
-def vacancy_Python():
+def vacancy_python():
     return VacancyValid(
         name="Python_developer",
         url="https://hh.ru/applicant/vacancy_response?vacancyId=117286365",
@@ -16,6 +18,7 @@ def vacancy_Python():
         salary_to=120000,
         description="Разработка и поддержка, back end части веб-приложений.",
     )
+
 
 @pytest.fixture
 def vacancy_sci():
@@ -25,6 +28,7 @@ def vacancy_sci():
         salary_from=150000,
         salary_to=200000,
     )
+
 
 @pytest.fixture
 def vacancy_sysadmin():
@@ -36,27 +40,30 @@ def vacancy_sysadmin():
     )
 
 
-
 @pytest.fixture
 def mock_hh_api():
     """Создаем mock-объект для HH """
     platform = HH(base_url="https://api.hh.ru/vacancies")
     return platform
 
+
 @pytest.fixture()
 def vacancy_without_name():
     """Фикстура, возвращающая данные для создания вакансии без имени."""
     return {"name": "", "url": "https://hh.com/job1", "salary_from": 60000, "salary_to": 120000}
+
 
 @pytest.fixture()
 def vacancy_without_url():
     """Фикстура, возвращающая данные для создания вакансии без адреса url."""
     return {"name": "Ведущий офис-менеджер", "url": "", "salary_from": 130000, "salary_to": 170000}
 
+
 @pytest.fixture()
 def vacancy_with_negative_salary():
     """Фикстура, возвращающая данные для создания вакансии, где зарплата - отрицательное число."""
     return {"name": "Швея-мотористка", "url": "https://hh.com/job2", "salary_from": -60000, "salary_to": 120000}
+
 
 @pytest.fixture()
 def platform_data():
@@ -76,9 +83,10 @@ def platform_data():
         },
     ]
 
-    @pytest.fixture
-    def temp_json_file(tmp_path):
-        file = tmp_path / "test_vacancies.json"
-        yield file
-        if file.exists():
-            os.remove(file)
+
+@pytest.fixture
+def temp_json_file(tmp_path):
+    file = tmp_path / "test_vacancies.json"
+    yield file
+    if file.exists():
+        os.remove(file)

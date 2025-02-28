@@ -72,15 +72,11 @@ class VacancyValid:
 
 if __name__ == '__main__':
     platform = HH()
-# Проверяем подключение
-    if platform.connect():
-        # Получаем вакансии с платформы по запросу
-        platform_data = platform.get_vacancies("python разработчик")
+    if platform.__get_connect():
+        platform_data = platform.__get_vacancies("python разработчик")
 
-        # Преобразуем данные вакансий в экземпляры класса Vacancy
         vacancies = VacancyValid.from_platform(platform_data)
 
-        # Выводим вакансии
         for vacancy in vacancies:
             print(vacancy)
         print(type(vacancy))

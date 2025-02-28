@@ -7,7 +7,7 @@ def user_interaction():
      отображать результаты и позволять фильтровать вакансии."""
 
     hh_platform = HH()
-    if not hh_platform.connect():
+    if not hh_platform.__get_connect():
         return
 
     storage = VacancyManager('vacancies.json')
@@ -22,7 +22,7 @@ def user_interaction():
 
         if choice == "1":
             search_query = input("Введите поисковый запрос: ")
-            vacancies = hh_platform.get_vacancies(search_query)
+            vacancies = hh_platform.__get_vacancy(search_query)
             for vacancy in vacancies:
                 v = VacancyValid(vacancy["name"], vacancy["url"],
                                  vacancy["salary_from"], vacancy["salary_to"],
@@ -31,13 +31,13 @@ def user_interaction():
             print(f"Найдено {len(vacancies)} вакансий.")
         elif choice == "2":
             N = int(input("Введите количество вакансий для отображения: "))
-            vacancies = storage.get_vacancies("")
+            vacancies = storage.__get_vacancy("")
             vacancies.sort(reverse=True)
             for v in vacancies[:N]:
                 print(v)
         elif choice == "3":
             keyword = input("Введите ключевое слово для поиска в описаниях: ")
-            vacancies = storage.get_vacancies(keyword)
+            vacancies = storage.get_vacancy(keyword)
             for v in vacancies:
                 print(v)
         elif choice == "4":
