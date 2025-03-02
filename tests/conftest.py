@@ -47,23 +47,37 @@ def mock_hh_api():
     return platform
 
 
-
 @pytest.fixture()
 def vacancy_without_name():
     """Фикстура, возвращающая данные для создания вакансии без имени."""
-    return {"name": "", "url": "https://hh.com/job1", "salary_from": 60000, "salary_to": 120000}
+    return {
+        "name": "",
+        "url": "https://hh.com/job1",
+        "salary_from": 60000,
+        "salary_to": 120000,
+    }
 
 
 @pytest.fixture()
 def vacancy_without_url():
     """Фикстура, возвращающая данные для создания вакансии без адреса url."""
-    return {"name": "Ведущий офис-менеджер", "url": "", "salary_from": 130000, "salary_to": 170000}
+    return {
+        "name": "Ведущий офис-менеджер",
+        "url": "",
+        "salary_from": 130000,
+        "salary_to": 170000,
+    }
 
 
 @pytest.fixture()
 def vacancy_with_negative_salary():
     """Фикстура, возвращающая данные для создания вакансии, где зарплата - отрицательное число."""
-    return {"name": "Швея-мотористка", "url": "https://hh.com/job2", "salary_from": -60000, "salary_to": 120000}
+    return {
+        "name": "Швея-мотористка",
+        "url": "https://hh.com/job2",
+        "salary_from": -60000,
+        "salary_to": 120000,
+    }
 
 
 @pytest.fixture()

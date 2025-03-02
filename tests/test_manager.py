@@ -6,9 +6,9 @@ from src.vacancy_validation import VacancyValid
 from src.child_abstract2 import VacancyManager
 
 
-def test_add_vacancies(temp_json_file, vacancy_python, vacancy_sysadmin):
+def test_add_vacancy(temp_json_file, vacancy_python, vacancy_sysadmin):
     storage = VacancyManager(temp_json_file)
-    storage.add_vacancies([vacancy_python, vacancy_sysadmin])
+    storage.add_vacancy([vacancy_python, vacancy_sysadmin])
 
     with open(temp_json_file, "r", encoding="utf-8") as file:
         data = json.load(file)
@@ -18,7 +18,7 @@ def test_add_vacancies(temp_json_file, vacancy_python, vacancy_sysadmin):
     assert data[1]["name"] == vacancy_sysadmin.name
 
 
-def test_get_vacancies(temp_json_file, vacancy_python, vacancy_sysadmin):
+def test_get_vacancy(temp_json_file, vacancy_python, vacancy_sysadmin):
     storage = VacancyManager(temp_json_file)
     storage.add_vacancy([vacancy_python, vacancy_sysadmin])
 
@@ -27,12 +27,12 @@ def test_get_vacancies(temp_json_file, vacancy_python, vacancy_sysadmin):
     assert result[0]["name"] == "Python_developer"
 
 
-def test_delete_vacancies(temp_json_file, vacancy_python, vacancy_sysadmin):
+def test_delete_vacancy(temp_json_file, vacancy_python, vacancy_sysadmin):
     storage = VacancyManager(temp_json_file)
     storage.add_vacancy([vacancy_python, vacancy_sysadmin])
 
     storage.delete_vacancy({"name": "Python_developer"})
-    data = storage.__load_data()
+    data = storage.load_data()
 
     assert len(data) == 1
     assert data[0]["name"] == "Системный администратор"
