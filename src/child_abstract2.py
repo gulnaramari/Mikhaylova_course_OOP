@@ -9,13 +9,13 @@ class VacancyManager(JsonEdit):
     """Дочерний класс для работы с файлами, который позволит сохранять вакансии, читать их и удалять.
     Реализуем его для работы с JSON."""
 
-    def __init__(self, file_path: str = "vacancies.json", ) -> None:
+    def __init__(self, file_path) -> None:
         self.file_path = Path(file_path)
 
         if not self.file_path.exists():
-            self._save_data([])
+            self.__save_data([])
 
-    def __load_data(self) -> List[Dict]:
+    def __load_data(self):
         """Приватный метод для загрузки данных из JSON-файла."""
         try:
             with open(self.file_path, "r", encoding="utf-8") as file:
@@ -27,7 +27,7 @@ class VacancyManager(JsonEdit):
             print(f"Ошибка при чтении файла: {e}")
             return []
 
-    def __save_data(self, data: List[Dict]) -> None:
+    def __save_data(self, data):
         """Приватный метод для сохранения данных в JSON-файл."""
         try:
             with open(self.file_path, "w", encoding="utf-8") as file:
@@ -42,7 +42,7 @@ class VacancyManager(JsonEdit):
             vacancy_dict = vacancy.to_dict()
             if vacancy_dict not in data:
                 data.append(vacancy_dict)
-        self._save_data(data)
+        self.__save_data(data)
 
     def get_vacancy(self, criteria: Dict) -> List[Dict]:
         """Возвращает список вакансий, которые соответствуют моим критериям."""
@@ -55,9 +55,9 @@ class VacancyManager(JsonEdit):
 
     def delete_vacancy(self, criteria: Dict):
         """Удаляет вакансии, соответствующие моим критериям, из JSON-файла."""
-
         data = self.__load_data()
-        self._save_data(data)
+        data = [item for item in data if not all(item.get(key) == value for key, value in criteria.items())]
+        self.__save_data(data)
 
 
 if __name__ == "__main__":
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     print(storage.file_path)
 
     # Очистим файл перед тестом
-    storage.delete_vacancy([])
+    storage.delete_vacancy({})
 
     # Добавляем несколько вакансий
     vacancy1 = VacancyValid("Python Developer", "https://example.com/1", 100000, 120000, "Разработка приложений")
@@ -82,7 +82,7 @@ if __name__ == "__main__":
 
     # Фильтр по названию
     print("\nВакансии с названием 'Python Developer':")
-    print(storage.get_vacancy({"title": "Python Developer"}))
+    print(storage.get_vacancy({"name": "Python Developer"}))
 
     # Фильтр по зарплате
     print("\nВакансии с зарплатой от 150000:")
@@ -93,16 +93,16 @@ if __name__ == "__main__":
     print(storage.get_vacancy({"url": "https://example.com/2"}))
 
     # Удаляем вакансию 'Python Developer'
-    storage.delete_vacancy({"title": "Python Developer"})
+    storage.delete_vacancy({"name": "Python Developer"})
     print("\nПосле удаления вакансии 'Python Developer':")
     print(storage.get_vacancy({}))
 
     # Удаляем вакансию 'Data Scientist'
-    storage.delete_vacancy({"title": "Data Scientist"})
+    storage.delete_vacancy({"name": "Data Scientist"})
     print("\nПосле удаления вакансии 'Data Scientist':")
     print(storage.get_vacancy({}))
 
     # Пытаемся удалить несуществующую вакансию
-    storage.delete_vacancy({"title": "Frontend Developer"})
+    storage.delete_vacancy({"name": "Frontend Developer"})
     print("\nПосле попытки удаления несуществующей вакансии 'Frontend Developer':")
     print(storage.get_vacancy({}))

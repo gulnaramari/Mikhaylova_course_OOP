@@ -42,9 +42,10 @@ def vacancy_sysadmin():
 
 @pytest.fixture
 def mock_hh_api():
-    """Создаем mock-объект для HH """
+    """Создаем mock-объект для HHJobPlatform."""
     platform = HH(base_url="https://api.hh.ru/vacancies")
     return platform
+
 
 
 @pytest.fixture()

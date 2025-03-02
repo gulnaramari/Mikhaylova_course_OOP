@@ -11,6 +11,6 @@ class ApiJob(ABC):
         pass
 
     @abstractmethod
-    def get_vacancies(self, query: str, pages: int, per_page: int):
+    def get_vacancies(self, search_query: str, page: int = 1):
         """Метод для получения списка вакансий по поисковому запросу"""
         pass

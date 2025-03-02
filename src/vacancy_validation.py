@@ -1,3 +1,4 @@
+from pprint import pprint
 from typing import Dict, List
 
 from src.child_abstract1 import HH
@@ -28,22 +29,22 @@ class VacancyValid:
             raise ValueError("Минимальная зарплата не может быть больше максимальной.")
 
     def __str__(self) -> str:
-        """Возвращает строковое представление объекта Vacancy."""
+        """Возвращает строковое представление объекта VacancyValid."""
         return f"Вакансия: {self.name}, Зарплата: {self.salary_from}-{self.salary_to}, URL: {self.url}"
 
-    def __lt__(self, other: "Vacancy") -> bool:
+    def __lt__(self, other) -> bool:
         """Сравнение вакансий по минимальной зарплате"""
         return (self.salary_from + self.salary_to) / 2 < (other.salary_from + other.salary_to) / 2
 
-    def __gt__(self, other: "Vacancy") -> bool:
+    def __gt__(self, other) -> bool:
         """Сравнение вакансий по максимальной зарплате"""
         return (self.salary_from + self.salary_to) / 2 > (other.salary_from + other.salary_to) / 2
 
     @staticmethod
-    def from_dict(data: List[Dict]) -> List:
+    def from_dict(data_: List[Dict]) -> List:
         """Метод для формирования списка вакансий из данных платформы"""
         vac = []
-        for vac_data in data:
+        for vac_data in data_:
             name = vac_data.get("name", "Название не указано")
             url = vac_data.get("apply_alternate_url", "")
 
@@ -70,20 +71,9 @@ class VacancyValid:
         }
 
 
-if __name__ == '__main__':
-    platform = HH()
-    if platform.__get_connect():
-        platform_data = platform.__get_vacancies("python разработчик")
-
-        vacancies = VacancyValid.from_platform(platform_data)
-
-        for vacancy in vacancies:
-            print(vacancy)
-        print(type(vacancy))
-
-        vacancy_developer = VacancyValid(name="Python_developer",
-                                         url="https://hh.ru/applicant/vacancy_response?vacancyId=117286365",
-                                         salary_from=100000,
-                                         salary_to=120000,
-                                         description="Разработка и поддержка, back end части веб-приложений.")
-        print(vacancy_developer.__str__())
+vacancy_developer = VacancyValid(name="Python_developer",
+                                 url="https://hh.ru/applicant/vacancy_response?vacancyId=117286365",
+                                 salary_from=100000, salary_to=120000,
+                                 description="Разработка и поддержка, back end части веб-приложений.")
+print(vacancy_developer.__str__())
+pprint(vacancy_developer.to_dict())
