@@ -1,5 +1,5 @@
-from pprint import pprint
 from typing import Dict, List
+from pandas import DataFrame
 
 
 class VacancyValid:
@@ -7,8 +7,11 @@ class VacancyValid:
     """Класс, который будет представлять вакансию с атрибутами, такими как название, ссылка, зарплата, описание,
     а также методы для сравнения вакансий по зарплате и валидации данных."""
 
+    dataset: dict
+    df_categories: DataFrame
+
     def __init__(
-        self, name, url, salary_from=None, salary_to=None, description=None
+            self, name, url, salary_from=None, salary_to=None, description=None
     ) -> None:
         self.name = name
         self.url = url
@@ -20,7 +23,7 @@ class VacancyValid:
         self.__validate()
 
     def __validate(self) -> None:
-        """Приватный метод для валидации данных вакансии"""
+        """Приватный метод для валидации по зарплате"""
         if not self.name or not self.url:
             raise ValueError("Название вакансии и URL обязательны.")
         if self.salary_from < 0 or self.salary_to < 0:
@@ -33,13 +36,13 @@ class VacancyValid:
     def __lt__(self, other) -> bool:
         """Сравнение вакансий по минимальной зарплате"""
         return (self.salary_from + self.salary_to) / 2 < (
-            other.salary_from + other.salary_to
+                other.salary_from + other.salary_to
         ) / 2
 
     def __gt__(self, other) -> bool:
         """Сравнение вакансий по максимальной зарплате"""
         return (self.salary_from + self.salary_to) / 2 > (
-            other.salary_from + other.salary_to
+                other.salary_from + other.salary_to
         ) / 2
 
     @staticmethod
@@ -87,12 +90,13 @@ class VacancyValid:
         }
 
 
-#vacancy_developer = VacancyValid(
-#    name="Python_developer",
-#    url="https://hh.ru/applicant/vacancy_response?vacancyId=117286365",
- #   salary_from=100000,
- #   salary_to=120000,
- #   description="Разработка и поддержка, back end части веб-приложений.",
-#)
-#print(vacancy_developer.__str__())
-#pprint(vacancy_developer.to_dict())
+if __name__ == "__main__":  # pragma: no cover
+    vacancy_developer = VacancyValid(
+        name="Python_developer",
+        url="https://hh.ru/applicant/vacancy_response?vacancyId=117286365",
+        salary_from=100000,
+        salary_to=120000,
+        description="Разработка и поддержка, back end части веб-приложений."
+    )
+    print(vacancy_developer.__str__())
+    print(vacancy_developer.to_dict())

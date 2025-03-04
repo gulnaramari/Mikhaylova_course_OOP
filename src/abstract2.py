@@ -8,13 +8,15 @@ class JsonEdit(ABC):
     Реализуем его для работы с JSON."""
 
     @abstractmethod
-    def add_vacancy(self, vacancies: List[VacancyValid]):
+    def save_data(self, vacancies: list[dict]):
         pass
 
-    @abstractmethod
-    def get_vacancy(self, criteria: Dict):
-        pass
 
     @abstractmethod
-    def delete_vacancy(self, criteria: Dict):
+    def read_data(self, vacancies: list[dict]):
+        pass
+
+
+    @abstractmethod
+    def delete_data(self):
         pass

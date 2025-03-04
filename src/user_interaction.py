@@ -1,16 +1,14 @@
 from src.child_abstract2 import VacancyManager
 from src.child_abstract1 import HH
 from src.vacancy_validation import VacancyValid
-
+from pathlib import Path
 
 def user_interaction():
     """Функция для взаимодействия с пользователем через консоль, которая будет запрашивать данные,
     отображать результаты и позволять фильтровать вакансии."""
 
     platform = HH()
-    storage = VacancyManager(
-        "C:/Users/Daniel/PycharmProjects/Mother/pythonProject1/data/hh_vacancies.json"
-    )
+    storage = VacancyManager()
 
     if not platform.get_connecting():
         print("Не удалось подключиться к API hh.ru")
