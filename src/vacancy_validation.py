@@ -1,29 +1,24 @@
 from typing import Dict, List
 from pandas import DataFrame
 
+from src.child_abstract1 import HH
+
 
 class VacancyValid:
     __slots__ = ["name", "url", "salary_from", "salary_to", "description"]
     """Класс, который будет представлять вакансию с атрибутами, такими как название, ссылка, зарплата, описание,
     а также методы для сравнения вакансий по зарплате и валидации данных."""
 
-    dataset: dict
-    df_categories: DataFrame
-
-    def __init__(
-            self, name, url, salary_from=None, salary_to=None, description=None
-    ) -> None:
+    def __init__(self, name, url, salary_from, salary_to, description) -> None:
         self.name = name
         self.url = url
         self.salary_from = salary_from if salary_from is not None else 0
         self.salary_to = salary_to if salary_to is not None else 0
         self.description = description or "Описание не указано"
+        self.validate()
 
-        # Валидация данных
-        self.__validate()
-
-    def __validate(self) -> None:
-        """Приватный метод для валидации по зарплате"""
+    def validate(self):
+        """Метод для валидации данных вакансии"""
         if not self.name or not self.url:
             raise ValueError("Название вакансии и URL обязательны.")
         if self.salary_from < 0 or self.salary_to < 0:
@@ -46,41 +41,29 @@ class VacancyValid:
         ) / 2
 
     @staticmethod
-    def from_dict(data_: List[Dict]) -> List:
+    def from_hh(data):
         """Метод для формирования списка вакансий из данных платформы"""
-        vac = []
-        for vac_data in data_:
-            name = vac_data.get("name", "Название не указано")
-            url = vac_data.get("apply_alternate_url", "")
+        vacancies_fromhh = []
+        for vac in data:
+            name = vac.get("name", "Название не указано")
+            url = vac.get("url", "")
+            salary_from = vac.get("salary", {}).get("from", 0) if vac.get("salary") else 0
+            salary_to = vac.get("salary", {}).get("to", 0) if vac.get("salary") else 0
+            department = vac.get("department")
+            description = department.get("name", "Описание не указано") if department else "Описание не указано"
 
-            salary_from = (
-                vac_data.get("salary", {}).get("from", 0)
-                if vac_data.get("salary")
-                else 0
-            )
-            salary_to = (
-                vac_data.get("salary", {}).get("to", 0) if vac_data.get("salary") else 0
-            )
-
-            department = vac_data.get("department")
-            description = (
-                department.get("name", "Описание не указано")
-                if department
-                else "Описание не указано"
-            )
-
-            vacancy_ = VacancyValid(
+            vacancy1 = VacancyValid(
                 name=name,
                 url=url,
                 salary_from=salary_from,
                 salary_to=salary_to,
-                description=description,
+                description=description
             )
-            vac.append(vacancy_)
-        return vac
 
-    def to_dict(self) -> Dict:
-        """Преобразует экземпляр класса VacancyValid в словарь"""
+            vacancies_fromhh.append(vacancy1)
+        return vacancies_fromhh
+
+    def to_dict(self):
         return {
             "name": self.name,
             "url": self.url,
@@ -89,14 +72,13 @@ class VacancyValid:
             "description": self.description,
         }
 
+if __name__ == '__main__':
+    platform = HH("https://api.hh.ru/vacancies")
 
-if __name__ == "__main__":  # pragma: no cover
-    vacancy_developer = VacancyValid(
-        name="Python_developer",
-        url="https://hh.ru/applicant/vacancy_response?vacancyId=117286365",
-        salary_from=100000,
-        salary_to=120000,
-        description="Разработка и поддержка, back end части веб-приложений."
-    )
-    print(vacancy_developer.__str__())
-    print(vacancy_developer.to_dict())
+    if platform.get_connecting():
+        platform_data = platform.get_vacancies("сантехник")
+        vacancies = VacancyValid.from_hh(platform_data)
+        for vacancy in vacancies:
+            print(vacancy)
+        print(vacancies)
+

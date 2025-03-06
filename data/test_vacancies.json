@@ -1,0 +1,23 @@
+[
+    {
+        "name": "Python Developer",
+        "url": "https://example.com/1",
+        "salary_from": 100000,
+        "salary_to": 120000,
+        "description": "Разработка приложений"
+    },
+    {
+        "name": "Data Scientist",
+        "url": "https://example.com/2",
+        "salary_from": 150000,
+        "salary_to": 200000,
+        "description": "Анализ данных"
+    },
+    {
+        "name": "Python Developer",
+        "url": "https://example.com/3",
+        "salary_from": 130000,
+        "salary_to": 150000,
+        "description": "Работа с данными"
+    }
+]

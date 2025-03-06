@@ -1,6 +1,5 @@
-from typing import Dict, List
 from abc import ABC, abstractmethod
-from src.vacancy_validation import VacancyValid
+from typing import List, Dict
 
 
 class JsonEdit(ABC):
@@ -8,15 +7,13 @@ class JsonEdit(ABC):
     Реализуем его для работы с JSON."""
 
     @abstractmethod
-    def save_data(self, vacancies: list[dict]):
+    def add_vacancies(self, vacancies: List[Dict]):
         pass
 
-
     @abstractmethod
-    def read_data(self, vacancies: list[dict]):
+    def filter_vacancies(self, criteria: Dict):
         pass
 
-
     @abstractmethod
-    def delete_data(self):
+    def delete_data(self, criteria: Dict):
         pass

@@ -1,55 +1,59 @@
-from src.child_abstract2 import VacancyManager
-from src.child_abstract1 import HH
-from src.vacancy_validation import VacancyValid
-from pathlib import Path
+def filter_vac(data, keyword):
+    matched_vacancies = []
+    for vac in data:
+        for key, value in vac.items():
+            if keyword.lower() in str(value).lower():
+                matched_vacancies.append(vac)
+                break
 
-def user_interaction():
-    """Функция для взаимодействия с пользователем через консоль, которая будет запрашивать данные,
-    отображать результаты и позволять фильтровать вакансии."""
+    for vacancy in matched_vacancies:
+        print(vacancy)
 
-    platform = HH()
-    storage = VacancyManager()
 
-    if not platform.get_connecting():
-        print("Не удалось подключиться к API hh.ru")
-        return
-    while True:
-        print("\n1. Ввести поисковый запрос")
-        print("2. Получить топ N вакансий по зарплате")
-        print("3. Найти вакансии по ключевому слову в описании")
-        print("4. Выход")
+def get_vacancies_by_salary(filtered_vacancies, salary_range):
+    """Функция сортирует вакансии по вилке зарплаты (от и до)"""
+    if filtered_vacancies is None:
+        print("Ошибка: filtered_vacancies не должно быть None.")
+        return []
 
-        choice = input("Выберите действие: ")
+    filtered_salary_vacancies = []
+    from_to_salary = salary_range.split()
 
-        if choice == "1":
-            query = input("Введите поисковый запрос: ")
-            data_ = platform.get_vacancies(query)
-            vacancies_list = VacancyValid.from_dict(data_)
-            storage.add_vacancy(vacancies_list)
-            for vacancy in vacancies_list:
-                print(vacancy)
+    try:
+        min_salary = int(from_to_salary[0])
+        max_salary = int(from_to_salary[2])
+    except (IndexError, ValueError):
+        print("Некорректный ввод диапазона зарплат. Пример: '100000 - 150000'")
+        return []
 
-        elif choice == "2":
-            n = int(input("Сколько вакансий вывести?: "))
-            data = storage.load_data()
+    for vacancy in filtered_vacancies:
+        salary = vacancy.get("salary", {})
 
-            sorted_vacancies = sorted(
-                data,
-                key=lambda x: (x["salary_from"] + x["salary_to"]) / 2,
-                reverse=True,
-            )
-            for vacancy in sorted_vacancies[:n]:
-                print(vacancy)
+        # Check if salary is None or not a dictionary
+        if salary is None or not isinstance(salary, dict):
+            continue
 
-        elif choice == "3":
-            keyword = input("Введите ключевое слово: ")
-            data = storage.load_data()
+        salary_from = salary.get("from")
+        salary_to = salary.get("to")
 
-            filtered = [v for v in data if keyword.lower() in v["description"].lower()]
-            for vacancy in filtered:
-                print(vacancy)
-        elif choice == "4":
-            break
+        if salary_from is not None and salary_to is not None:
+            try:
+                salary_from = int(salary_from)
+                salary_to = int(salary_to)
+            except ValueError:
+                continue
 
-        else:
-            print("Неверный выбор, попробуйте снова.")
+            if salary_from >= min_salary and salary_to <= max_salary:
+                filtered_salary_vacancies.append(vacancy)
+
+    return sorted(
+        filtered_salary_vacancies,
+        key=lambda x: x["salary"].get("to", 0),
+        reverse=True
+    )
+
+def get_top_vacancies(filtered_vacancies, n_vac):
+    """Функция вывода топ вакансий по выбору пользователя"""
+    filtered_vacancies = filtered_vacancies[0: n_vac]
+    return filtered_vacancies
+

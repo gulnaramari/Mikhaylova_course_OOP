@@ -18,8 +18,8 @@ class HH(ApiJob):
         else:
             raise Exception(f"Failed to connect. Status code={response1.status_code}")
 
-    def get_vacancies(self, search_query: str, page: int = 1, per_page: int = 1) -> List:
-        """Преобразование ответа с API в Python объект"""
+    def get_vacancies(self, search_query: str, page: int = 10, per_page: int = 10) -> List:
+        """Полуение ответа с API """
         __params = {"text": search_query, "page": page, "per_page": per_page}
         response1 = requests.get(self.__base_url, params=__params)
 
