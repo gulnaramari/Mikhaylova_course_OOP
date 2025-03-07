@@ -6932,5 +6932,19 @@
         "salary_from": 0,
         "salary_to": 0,
         "description": "Описание не указано"
+    },
+    {
+        "name": "Младший разработчик Python",
+        "url": "https://api.hh.ru/vacancies/117948030?host=hh.ru",
+        "salary_from": 0,
+        "salary_to": 0,
+        "description": "Описание не указано"
+    },
+    {
+        "name": "Python-разработчик",
+        "url": "https://api.hh.ru/vacancies/117983582?host=hh.ru",
+        "salary_from": 150000,
+        "salary_to": 0,
+        "description": "Описание не указано"
     }
 ]
