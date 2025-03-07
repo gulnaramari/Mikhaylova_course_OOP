@@ -1,18 +1,17 @@
-
 ---------- coverage: platform win32, python 3.12.4-final-0 -----------
 Name                         Stmts   Miss  Cover
 ------------------------------------------------
+config.py                        5      0   100%
 src\__init__.py                  0      0   100%
-src\abstract2.py                13      3    77%
+src\abstract2.py                12      3    75%
 src\abstract_1.py                8      2    75%
-src\child_abstract1.py          24      1    96%
-src\child_abstract2.py          45      8    82%
-src\vacancy_validation.py       44      1    98%
+src\child_abstract1.py          19      4    79%
+src\child_abstract2.py          38      2    95%
+src\vacancy_validation.py       47      7    85%
 tests\__init__.py                0      0   100%
-tests\conftest.py               38      1    97%
-tests\test_hh_api.py            22      0   100%
+tests\conftest.py               45      6    87%
+tests\test_hh_api.py            17      0   100%
 tests\test_manager.py           29      0   100%
-tests\test_vacancyvalid.py      50      0   100%
+tests\test_vacancyvalid.py      49      0   100%
 ------------------------------------------------
-TOTAL                          273     16    94%
-
+TOTAL                          269     24    91%

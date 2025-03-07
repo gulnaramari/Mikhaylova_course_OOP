@@ -1,4 +1,3 @@
-from abc import ABC
 from typing import List
 import requests
 from src.abstract_1 import ApiJob
@@ -18,8 +17,10 @@ class HH(ApiJob):
         else:
             raise Exception(f"Failed to connect. Status code={response1.status_code}")
 
-    def get_vacancies(self, search_query: str, page: int = 10, per_page: int = 10) -> List:
-        """Полуение ответа с API """
+    def get_vacancies(
+        self, search_query: str, page: int = 10, per_page: int = 10
+    ) -> List:
+        """Полуение ответа с API"""
         __params = {"text": search_query, "page": page, "per_page": per_page}
         response1 = requests.get(self.__base_url, params=__params)
 
@@ -31,5 +32,7 @@ class HH(ApiJob):
 
 
 if __name__ == "__main__":  # pragma: no cover
-    response = requests.get("https://api.hh.ru/vacancies", {"text": "python", "page": 0, "per_page": 20})
+    response = requests.get(
+        "https://api.hh.ru/vacancies", {"text": "python", "page": 0, "per_page": 20}
+    )
     print(response.json()["items"])

@@ -1,6 +1,3 @@
-from typing import Dict, List
-from pandas import DataFrame
-
 from src.child_abstract1 import HH
 
 
@@ -31,13 +28,13 @@ class VacancyValid:
     def __lt__(self, other) -> bool:
         """Сравнение вакансий по минимальной зарплате"""
         return (self.salary_from + self.salary_to) / 2 < (
-                other.salary_from + other.salary_to
+            other.salary_from + other.salary_to
         ) / 2
 
     def __gt__(self, other) -> bool:
         """Сравнение вакансий по максимальной зарплате"""
         return (self.salary_from + self.salary_to) / 2 > (
-                other.salary_from + other.salary_to
+            other.salary_from + other.salary_to
         ) / 2
 
     @staticmethod
@@ -47,17 +44,23 @@ class VacancyValid:
         for vac in data:
             name = vac.get("name", "Название не указано")
             url = vac.get("url", "")
-            salary_from = vac.get("salary", {}).get("from", 0) if vac.get("salary") else 0
+            salary_from = (
+                vac.get("salary", {}).get("from", 0) if vac.get("salary") else 0
+            )
             salary_to = vac.get("salary", {}).get("to", 0) if vac.get("salary") else 0
             department = vac.get("department")
-            description = department.get("name", "Описание не указано") if department else "Описание не указано"
+            description = (
+                department.get("name", "Описание не указано")
+                if department
+                else "Описание не указано"
+            )
 
             vacancy1 = VacancyValid(
                 name=name,
                 url=url,
                 salary_from=salary_from,
                 salary_to=salary_to,
-                description=description
+                description=description,
             )
 
             vacancies_fromhh.append(vacancy1)
@@ -72,7 +75,8 @@ class VacancyValid:
             "description": self.description,
         }
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     platform = HH("https://api.hh.ru/vacancies")
 
     if platform.get_connecting():
@@ -81,4 +85,3 @@ if __name__ == '__main__':
         for vacancy in vacancies:
             print(vacancy)
         print(vacancies)
-

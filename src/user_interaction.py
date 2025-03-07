@@ -47,13 +47,11 @@ def get_vacancies_by_salary(filtered_vacancies, salary_range):
                 filtered_salary_vacancies.append(vacancy)
 
     return sorted(
-        filtered_salary_vacancies,
-        key=lambda x: x["salary"].get("to", 0),
-        reverse=True
+        filtered_salary_vacancies, key=lambda x: x["salary"].get("to", 0), reverse=True
     )
+
 
 def get_top_vacancies(filtered_vacancies, n_vac):
     """Функция вывода топ вакансий по выбору пользователя"""
-    filtered_vacancies = filtered_vacancies[0: n_vac]
+    filtered_vacancies = filtered_vacancies[0:n_vac]
     return filtered_vacancies
-

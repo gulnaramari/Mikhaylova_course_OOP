@@ -6876,5 +6876,61 @@
         "salary_from": 0,
         "salary_to": 0,
         "description": "Описание не указано"
+    },
+    {
+        "name": "Backend Developer",
+        "url": "https://api.hh.ru/vacancies/117946709?host=hh.ru",
+        "salary_from": 0,
+        "salary_to": 0,
+        "description": "Описание не указано"
+    },
+    {
+        "name": "C#/.NET-разработчик в команду FAKTURA.UZ",
+        "url": "https://api.hh.ru/vacancies/117952331?host=hh.ru",
+        "salary_from": 5000000,
+        "salary_to": 20000000,
+        "description": "Описание не указано"
+    },
+    {
+        "name": "Junior Python Developer",
+        "url": "https://api.hh.ru/vacancies/110412718?host=hh.ru",
+        "salary_from": 75000,
+        "salary_to": 0,
+        "description": "Описание не указано"
+    },
+    {
+        "name": "Middle QA Manual Engineer (стрим BI)",
+        "url": "https://api.hh.ru/vacancies/117956799?host=hh.ru",
+        "salary_from": 0,
+        "salary_to": 0,
+        "description": "Описание не указано"
+    },
+    {
+        "name": "Python-разработчик",
+        "url": "https://api.hh.ru/vacancies/117882918?host=hh.ru",
+        "salary_from": 50000,
+        "salary_to": 0,
+        "description": "Описание не указано"
+    },
+    {
+        "name": "Младший BI-аналитик",
+        "url": "https://api.hh.ru/vacancies/117887995?host=hh.ru",
+        "salary_from": 0,
+        "salary_to": 150000,
+        "description": "Описание не указано"
+    },
+    {
+        "name": "IOS-разработчик",
+        "url": "https://api.hh.ru/vacancies/118073643?host=hh.ru",
+        "salary_from": 200000,
+        "salary_to": 240000,
+        "description": "Описание не указано"
+    },
+    {
+        "name": "Инженер по тестированию / QA Engineer",
+        "url": "https://api.hh.ru/vacancies/115412867?host=hh.ru",
+        "salary_from": 0,
+        "salary_to": 0,
+        "description": "Описание не указано"
     }
 ]

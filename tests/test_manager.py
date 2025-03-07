@@ -4,9 +4,18 @@ from src.vacancy_validation import VacancyValid
 from src.child_abstract2 import VacancyManager
 
 
-def test_save_data(temp_json_file, vacancy_python, vacancy_sysadmin):
+def test_get_vacancies(temp_json_file, vacancy_python, vacancy_sysadmin):
     storage = VacancyManager(temp_json_file)
-    storage.save_data([vacancy_python, vacancy_sysadmin])
+    storage.add_vacancies([vacancy_python, vacancy_sysadmin])
+
+    result = storage.filter_vacancies({"name": "Python_developer"})
+    assert len(result) == 1
+    assert result[0]["name"] == "Python_developer"
+
+
+def test_add_vacancies(temp_json_file, vacancy_python, vacancy_sysadmin):
+    storage = VacancyManager(temp_json_file)
+    storage.add_vacancies([vacancy_python, vacancy_sysadmin])
 
     with open(temp_json_file, "r", encoding="utf-8") as file:
         data = json.load(file)
@@ -16,21 +25,12 @@ def test_save_data(temp_json_file, vacancy_python, vacancy_sysadmin):
     assert data[1]["name"] == vacancy_sysadmin.name
 
 
-def test_read_data(temp_json_file, vacancy_python, vacancy_sysadmin):
+def test_delete_data(temp_json_file, vacancy_python, vacancy_sysadmin):
     storage = VacancyManager(temp_json_file)
-    storage.save_data([vacancy_python, vacancy_sysadmin])
+    storage.add_vacancies([vacancy_python, vacancy_sysadmin])
 
-    result = storage.read_data([])
-    assert len(result) == 1
-    assert result[0]["name"] == "Python_developer"
-
-
-def test_delete_vacancy(temp_json_file, vacancy_python, vacancy_sysadmin):
-    storage = VacancyManager(temp_json_file)
-    storage.save_data([vacancy_python, vacancy_sysadmin])
-
-    storage.delete_data()
-    data = storage.save_data([])
+    storage.delete_data({"name": "Python_developer"})
+    data = storage.load_data()
 
     assert len(data) == 1
     assert data[0]["name"] == "Системный администратор"
@@ -39,4 +39,4 @@ def test_delete_vacancy(temp_json_file, vacancy_python, vacancy_sysadmin):
 def test_add_invalid_vacancy(temp_json_file, vacancy_with_negative_salary):
     storage = VacancyManager(temp_json_file)
     with pytest.raises(ValueError):
-        storage.save_data([])
+        storage.add_vacancies([VacancyValid(**vacancy_with_negative_salary)])

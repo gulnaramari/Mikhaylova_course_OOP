@@ -38,9 +38,8 @@ def test_create_vacancy_negative_salary(vacancy_with_negative_salary):
 def test_str_method(vacancy_python):
     """Тест на метод __str__."""
     assert (
-        str(vacancy_python)
-        == "Вакансия: Python_developer, Зарплата: 100000-120000,"
-           " URL: https://hh.ru/applicant/vacancy_response?vacancyId=117286365"
+        str(vacancy_python) == "Вакансия: Python_developer, Зарплата: 100000-120000,"
+        " URL: https://hh.ru/applicant/vacancy_response?vacancyId=117286365"
     )
 
 
@@ -54,9 +53,9 @@ def test_vacancy_comparison_gt(vacancy_sysadmin, vacancy_python):
     assert vacancy_sysadmin < vacancy_python
 
 
-def test_from_dict(platform_data):
-    """Тест на метод from_dict."""
-    vacancies = VacancyValid.from_dict(platform_data)
+def test_from_hh(platform_data):
+    """Тест на метод from_hh"""
+    vacancies = VacancyValid.from_hh(platform_data)
     # Проверяем количество созданных вакансий
     assert len(vacancies) == 2
     # Проверяем тип объектов
@@ -80,8 +79,10 @@ def test_vacancy_capsys(capsys, vacancy_python):
     """Тест метода __str__ класса Vacancy с использованием capsys."""
     print(vacancy_python)
     captured = capsys.readouterr()
-    expected_output = "Вакансия: Python_developer, Зарплата: 100000-120000," \
-                      " URL: https://hh.ru/applicant/vacancy_response?vacancyId=117286365\n"
+    expected_output = (
+        "Вакансия: Python_developer, Зарплата: 100000-120000,"
+        " URL: https://hh.ru/applicant/vacancy_response?vacancyId=117286365\n"
+    )
     assert captured.out == expected_output
 
 
@@ -94,5 +95,9 @@ def test_vacancy_compare(vacancy_python, vacancy_sysadmin):
 def test_invalid_salary():
     with pytest.raises(ValueError, match="Зарплата не может быть меньше 0."):
         VacancyValid(
-            name="Программист Python", url="https://example.com", salary_from=-100000
+            name="Программист Python",
+            url="https://example.com",
+            salary_from=-100000,
+            salary_to=100000,
+            description="Разработка приложений",
         )

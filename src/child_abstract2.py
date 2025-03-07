@@ -10,6 +10,7 @@ from src.vacancy_validation import VacancyValid
 class VacancyManager(JsonEdit):
     """Дочерний класс для работы с файлами, который позволит сохранять вакансии, читать их и удалять.
     Реализуем его для работы с JSON."""
+
     all_vacancies: list = []
 
     def __init__(self, file_path):
@@ -45,11 +46,15 @@ class VacancyManager(JsonEdit):
 
     def delete_data(self, criteria: Dict):
         data = self.load_data()
-        data = [item for item in data if not all(item.get(key) == value for key, value in criteria.items())]
+        data = [
+            item
+            for item in data
+            if not all(item.get(key) == value for key, value in criteria.items())
+        ]
         self.save_data(data)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma no cover
     storage = VacancyManager(path_to_testdata_json)
     print(storage.file_path)
 
@@ -57,9 +62,19 @@ if __name__ == "__main__":
     storage.save_data([])
 
     # Добавляем несколько вакансий
-    vacancy1 = VacancyValid("Python Developer", "https://example.com/1", 100000, 120000, "Разработка приложений")
-    vacancy2 = VacancyValid("Data Scientist", "https://example.com/2", 150000, 200000, "Анализ данных")
-    vacancy3 = VacancyValid("Python Developer", "https://example.com/3", 130000, 150000, "Работа с данными")
+    vacancy1 = VacancyValid(
+        "Python Developer",
+        "https://example.com/1",
+        100000,
+        120000,
+        "Разработка приложений",
+    )
+    vacancy2 = VacancyValid(
+        "Data Scientist", "https://example.com/2", 150000, 200000, "Анализ данных"
+    )
+    vacancy3 = VacancyValid(
+        "Python Developer", "https://example.com/3", 130000, 150000, "Работа с данными"
+    )
 
     storage.add_vacancies([vacancy1, vacancy2, vacancy3])
     print("Вакансии добавлены.")
@@ -99,9 +114,19 @@ if __name__ == "__main__":
     storage.save_data([])
 
     # Добавляем несколько вакансий
-    vacancy1 = VacancyValid("Python Developer", "https://example.com/1", 100000, 120000, "Разработка приложений")
-    vacancy2 = VacancyValid("Data Scientist", "https://example.com/2", 150000, 200000, "Анализ данных")
-    vacancy3 = VacancyValid("Python Developer", "https://example.com/3", 130000, 150000, "Работа с данными")
+    vacancy1 = VacancyValid(
+        "Python Developer",
+        "https://example.com/1",
+        100000,
+        120000,
+        "Разработка приложений",
+    )
+    vacancy2 = VacancyValid(
+        "Data Scientist", "https://example.com/2", 150000, 200000, "Анализ данных"
+    )
+    vacancy3 = VacancyValid(
+        "Python Developer", "https://example.com/3", 130000, 150000, "Работа с данными"
+    )
 
     storage.add_vacancies([vacancy1, vacancy2, vacancy3])
     print("Вакансии добавлены.")

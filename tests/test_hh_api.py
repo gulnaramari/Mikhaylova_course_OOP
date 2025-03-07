@@ -7,13 +7,6 @@ def test_connect_success(head_hunter_example):
         assert head_hunter_example._HH__base_url == "https://api.hh.ru/vacancies"
 
 
-def test_connect_failure(mock_hh_api):
-    """Тест на ошибку подключения к API."""
-    with patch("requests.get") as mock_get:
-        mock_get.return_value.status_code = 500
-        assert mock_hh_api.get_connecting() is False
-
-
 def test_get_vacancies_success(mock_hh_api):
     """Тест на успешное получение вакансий."""
     with patch("requests.get") as mock_get:

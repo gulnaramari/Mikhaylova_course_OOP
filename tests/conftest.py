@@ -27,6 +27,7 @@ def vacancy_sci():
         url="https://example.com/2",
         salary_from=150000,
         salary_to=200000,
+        description="Разработка приложений",
     )
 
 
@@ -37,6 +38,7 @@ def vacancy_sysadmin():
         url="https://hh.ru/applicant/vacancy_response?vacancyId=112451122",
         salary_from=50000,
         salary_to=90000,
+        description="Разработка приложений",
     )
 
 
@@ -55,6 +57,7 @@ def vacancy_without_name():
         "url": "https://hh.com/job1",
         "salary_from": 60000,
         "salary_to": 120000,
+        "description": "Разработка приложений",
     }
 
 
@@ -66,6 +69,7 @@ def vacancy_without_url():
         "url": "",
         "salary_from": 130000,
         "salary_to": 170000,
+        "description": "Разработка приложений",
     }
 
 
@@ -77,6 +81,7 @@ def vacancy_with_negative_salary():
         "url": "https://hh.com/job2",
         "salary_from": -60000,
         "salary_to": 120000,
+        "description": "Разработка приложений",
     }
 
 
@@ -86,13 +91,13 @@ def platform_data():
     return [
         {
             "name": "Программист",
-            "apply_alternate_url": "https://example.com/job1",
+            "url": "https://example.com/job1",
             "salary": {"from": 80000, "to": 150000},
             "department": {"name": "Отдел разработки"},
         },
         {
             "name": "Тестировщик",
-            "apply_alternate_url": "https://example.com/job2",
+            "url": "https://example.com/job2",
             "salary": {"from": 60000, "to": 100000},
             "department": {"name": "Отдел тестирования"},
         },
@@ -105,3 +110,12 @@ def temp_json_file(tmp_path):
     yield file
     if file.exists():
         os.remove(file)
+
+
+@pytest.fixture
+def temp_json_file_wrong(tmp_path):
+    file = tmp_path / ""
+    yield file
+    if file.exists():
+        os.remove(file)
+    return []
